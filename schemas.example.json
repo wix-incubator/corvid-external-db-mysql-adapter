@@ -1,0 +1,42 @@
+[
+    {
+        "id": "wixCollection",
+        "ttl": 3600,
+        "defaultSort": {
+            "fieldName": "name",
+            "direction": "asc"
+        },
+        "allowedOperations": [
+            "insert",
+            "update",
+            "get",
+            "remove",
+            "find",
+            "count"
+        ],
+        "fields": {
+            "name": {
+                "displayName": "Name",
+                "type": "text",
+                "queryOperators": [
+                    "urlized", "hasSome"
+                ]
+            },
+            "occupation": {
+                "displayName": "Occupation",
+                "type": "text",
+                "queryOperators": [
+                    "urlized", "hasSome"
+                ]
+            },
+            "age": {
+                "displayName": "Age",
+                "type": "number",
+                "queryOperators": [
+                    "urlized", "hasSome"
+                ]
+            }
+        },
+        "maxPageSize": 50
+    }
+]
