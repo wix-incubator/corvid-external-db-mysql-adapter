@@ -1,0 +1,25 @@
+{
+  "name": "mysql-connector-node",
+  "version": "1.0.0",
+  "description": "Wix Data MySQL connector example for Node.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "./node_modules/.bin/mocha './**/*.spec.js' --reporter spec"
+  },
+  "keywords": [
+    "mysql"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^6.0.2",
+    "sinon": "^7.2.7"
+  }
+}
