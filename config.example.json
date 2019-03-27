@@ -1,3 +1,9 @@
 {
-    "secretKey": "<REPLACE_WITH_SECRET_KEY>"
+    "sqlConfig": {
+        "user": "<replace>",
+        "password": "<replace>",
+        "database": "<replace>",
+        "socketPath": "/cloudsql/<replace>"
+    },
+    "secretKey": "<replace>"
 }
