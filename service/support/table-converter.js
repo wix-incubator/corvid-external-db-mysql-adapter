@@ -8,6 +8,7 @@ module.exports = table => {
     id: table.table,
     allowedOperations: config.allowedOperations,
     maxPageSize: 50,
+    ttl: 3600,
     fields: convertFields(table.columns)
   }
 }
