@@ -46,6 +46,6 @@ An example configuration can be found in `schemas.example.json` file.
 * Run deployment command in your connector project folder.
 
 	```
-	gcloud app deploy app.yaml
+	npm run deploy
 	```
 * After deployment, access your service at `https://<project name>.appspot.com/`

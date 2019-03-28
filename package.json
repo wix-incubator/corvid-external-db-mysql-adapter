@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "./node_modules/.bin/mocha './**/*.spec.js' --reporter spec"
+    "test": "./node_modules/.bin/mocha './**/*.spec.js' --reporter spec",
+    "deploy": "gcloud app deploy ./app.yaml"
   },
   "keywords": [
     "mysql"
