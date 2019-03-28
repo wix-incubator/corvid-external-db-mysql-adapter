@@ -1,7 +1,7 @@
 const BadRequestError = require('../model/error/bad-request')
 const UnauthorizedError = require('../model/error/unauthorized')
-const load = require('./fileLoader')
-const { configValidator } = require('../utils/validators')
+const load = require('./file-loader')
+const { configValidator } = require('./validators')
 
 const configuredSecretKey = configValidator(load('config.json')).secretKey
 

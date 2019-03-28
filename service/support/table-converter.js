@@ -1,4 +1,4 @@
-const load = require('../../utils/fileLoader')
+const load = require('../../utils/file-loader')
 
 const config = load('config.json')
 
