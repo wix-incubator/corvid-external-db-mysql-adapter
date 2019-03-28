@@ -6,7 +6,6 @@ const expect = chai.expect
 const service = require('./schema')
 
 describe('Schema Service', () => {
-
   describe('find', () => {
     it('is rejected with an error', () => {
       //given
@@ -42,5 +41,4 @@ describe('Schema Service', () => {
       expect(call).to.eventually.be.rejectedWith(Error)
     })
   })
-
 })

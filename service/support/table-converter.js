@@ -46,16 +46,26 @@ const extractFieldType = dbType => {
     .split('(')
     .shift()
 
-  switch(type) {
-    case 'varchar': return 'text'
-    case 'text': return 'text'
-    case 'decimal': return 'number'
-    case 'bigint': return 'number'
-    case 'int': return 'number'
-    case 'tinyint': return 'boolean'
-    case 'time': return 'text'
-    case 'datetime': return 'datetime'
-    case 'json': return 'object'
-    default: return 'object'
+  switch (type) {
+    case 'varchar':
+      return 'text'
+    case 'text':
+      return 'text'
+    case 'decimal':
+      return 'number'
+    case 'bigint':
+      return 'number'
+    case 'int':
+      return 'number'
+    case 'tinyint':
+      return 'boolean'
+    case 'time':
+      return 'text'
+    case 'datetime':
+      return 'datetime'
+    case 'json':
+      return 'object'
+    default:
+      return 'object'
   }
 }

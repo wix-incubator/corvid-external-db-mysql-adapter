@@ -11,7 +11,7 @@ exports.parseToClause = filter => {
 }
 
 const parse = filter => {
-  switch(filter.operator) {
+  switch (filter.operator) {
     case '$and': {
       const value = filter.value.map(parse).join(' AND ')
       return value ? `(${value})` : value
@@ -35,11 +35,17 @@ const parse = filter => {
     case '$gte':
       return `${filter.fieldName} >= ${mysql.escape(filter.value)}`
     case '$hasSome':
-      return `${filter.fieldName} IN (${filter.value.map(mysql.escape).join(', ')})`
+      return `${filter.fieldName} IN (${filter.value
+        .map(mysql.escape)
+        .join(', ')})`
     case '$contains':
-      return `${filter.fieldName} IN (${filter.value.map(mysql.escape).join(', ')})`
+      return `${filter.fieldName} IN (${filter.value
+        .map(mysql.escape)
+        .join(', ')})`
     case '$urlized':
-      return `LOWER(${filter.fieldName}) RLIKE '${filter.value.map(s => s.toLowerCase()).join('[- ]')}'`
+      return `LOWER(${filter.fieldName}) RLIKE '${filter.value
+        .map(s => s.toLowerCase())
+        .join('[- ]')}'`
     case '$startsWith':
       return `${filter.fieldName} LIKE '${filter.value}%'`
     case '$endsWith':
@@ -47,6 +53,8 @@ const parse = filter => {
     case '$eq':
       return `${filter.fieldName} = ${mysql.escape(filter.value)}`
     default:
-      throw new BadRequestError(`Filter of type ${filter.operator} is not supported.`)
+      throw new BadRequestError(
+        `Filter of type ${filter.operator} is not supported.`
+      )
   }
 }

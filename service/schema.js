@@ -6,7 +6,9 @@ exports.find = async payload => {
   const { schemaIds } = payload
   if (!schemaIds) throw new BadRequestError('Missing schemaIds in request body')
 
-  const schemas = (await extractAllSchemas()).filter(schema => schemaIds.includes(schema.id))
+  const schemas = (await extractAllSchemas()).filter(schema =>
+    schemaIds.includes(schema.id)
+  )
 
   return { schemas }
 }
@@ -20,7 +22,7 @@ exports.list = async () => {
 exports.provision = async () => {
   await extractAllSchemas()
 
-  return { }
+  return {}
 }
 
 const extractAllSchemas = async () => {

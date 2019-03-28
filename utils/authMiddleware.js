@@ -13,7 +13,7 @@ const extractSecretKey = requestContext => {
   if (!requestContext.settings || !requestContext.settings.secretKey) {
     throw new UnauthorizedError('Missing secret key in request context')
   }
-  
+
   return requestContext.settings.secretKey
 }
 
@@ -23,7 +23,7 @@ const authMiddleware = (req, _, next) => {
   if (configuredSecretKey !== secretKey) {
     throw new UnauthorizedError('Provided secret key does not match')
   }
-  
+
   next()
 }
 

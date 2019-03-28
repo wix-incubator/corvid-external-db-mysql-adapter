@@ -5,7 +5,7 @@ exports.findSchemas = async (req, res) => {
 
   res.json(findResult)
 }
-  
+
 exports.listSchemas = async (req, res) => {
   const findResult = await Schema.list(req.body)
 

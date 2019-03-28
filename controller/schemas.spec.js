@@ -9,44 +9,49 @@ const Schema = require('../service/schema')
 const sandbox = sinon.createSandbox()
 
 describe('Schemas Controller', () => {
-
   afterEach(() => {
     sandbox.restore()
   })
 
   describe('findSchemas', () => {
     it('calls schema and responds with JSON', async () => {
-        //given
-        const req = { body: 42 }
-        const payload = { foo: "bar" }
-        sandbox.stub(Schema, 'find').withArgs(req.body).returns(payload)
-        const jsonResponseHandler = sandbox.stub()
-        const responseHandlers = { json: jsonResponseHandler }
+      //given
+      const req = { body: 42 }
+      const payload = { foo: 'bar' }
+      sandbox
+        .stub(Schema, 'find')
+        .withArgs(req.body)
+        .returns(payload)
+      const jsonResponseHandler = sandbox.stub()
+      const responseHandlers = { json: jsonResponseHandler }
 
-        //when
-        await controller.findSchemas(req, responseHandlers)
-        
-        //then
-        sandbox.assert.calledOnce(jsonResponseHandler)
-        sandbox.assert.calledWith(jsonResponseHandler, payload)
+      //when
+      await controller.findSchemas(req, responseHandlers)
+
+      //then
+      sandbox.assert.calledOnce(jsonResponseHandler)
+      sandbox.assert.calledWith(jsonResponseHandler, payload)
     })
   })
 
   describe('listSchemas', () => {
     it('calls schema and responds with JSON', async () => {
-        //given
-        const req = { body: 42 }
-        const payload = { foo: "bar" }
-        sandbox.stub(Schema, 'list').withArgs(req.body).returns(payload)
-        const jsonResponseHandler = sandbox.stub()
-        const responseHandlers = { json: jsonResponseHandler }
+      //given
+      const req = { body: 42 }
+      const payload = { foo: 'bar' }
+      sandbox
+        .stub(Schema, 'list')
+        .withArgs(req.body)
+        .returns(payload)
+      const jsonResponseHandler = sandbox.stub()
+      const responseHandlers = { json: jsonResponseHandler }
 
-        //when
-        await controller.listSchemas(req, responseHandlers)
-        
-        //then
-        sandbox.assert.calledOnce(jsonResponseHandler)
-        sandbox.assert.calledWith(jsonResponseHandler, payload)
+      //when
+      await controller.listSchemas(req, responseHandlers)
+
+      //then
+      sandbox.assert.calledOnce(jsonResponseHandler)
+      sandbox.assert.calledWith(jsonResponseHandler, payload)
     })
   })
 })

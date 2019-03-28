@@ -3,12 +3,20 @@ const BadRequestError = require('../model/error/bad-request')
 const NotFoundError = require('../model/error/not-found')
 
 const { parseToClause } = require('../filter/parser')
-const { select, count, insert, update, deleteOne } = require('../client/database')
+const {
+  select,
+  count,
+  insert,
+  update,
+  deleteOne
+} = require('../client/database')
 
 exports.find = async payload => {
   const { collectionName, filter, skip, limit } = payload
-  if (!collectionName) throw new BadRequestError('Missing collectionName in request body')
-  if (!skip && skip !== 0) throw new BadRequestError('Missing skip in request body')
+  if (!collectionName)
+    throw new BadRequestError('Missing collectionName in request body')
+  if (!skip && skip !== 0)
+    throw new BadRequestError('Missing skip in request body')
   if (!limit) throw new BadRequestError('Missing limit in request body')
 
   const items = await select(collectionName, parseToClause(filter), skip, limit)
@@ -19,10 +27,16 @@ exports.find = async payload => {
 
 exports.get = async payload => {
   const { collectionName, itemId } = payload
-  if (!collectionName) throw new BadRequestError('Missing collectionName in request body')
+  if (!collectionName)
+    throw new BadRequestError('Missing collectionName in request body')
   if (!itemId) throw new BadRequestError('Missing itemId in request body')
 
-  const item = (await select(collectionName, `WHERE _id = '${itemId}'`, 0, 1)).shift()
+  const item = (await select(
+    collectionName,
+    `WHERE _id = '${itemId}'`,
+    0,
+    1
+  )).shift()
 
   if (!item) {
     throw new NotFoundError(`Item with id ${itemId} not found.`)
@@ -33,7 +47,8 @@ exports.get = async payload => {
 
 exports.insert = async payload => {
   const { collectionName, item } = payload
-  if (!collectionName) throw new BadRequestError('Missing collectionName in request body')
+  if (!collectionName)
+    throw new BadRequestError('Missing collectionName in request body')
   if (!item) throw new BadRequestError('Missing item in request body')
 
   if (!item._id) item._id = uuid()
@@ -45,7 +60,8 @@ exports.insert = async payload => {
 
 exports.update = async payload => {
   const { collectionName, item } = payload
-  if (!collectionName) throw new BadRequestError('Missing collectionName in request body')
+  if (!collectionName)
+    throw new BadRequestError('Missing collectionName in request body')
   if (!item) throw new BadRequestError('Missing item in request body')
 
   const updated = await update(collectionName, item)
@@ -55,10 +71,16 @@ exports.update = async payload => {
 
 exports.remove = async payload => {
   const { collectionName, itemId } = payload
-  if (!collectionName) throw new BadRequestError('Missing collectionName in request body')
+  if (!collectionName)
+    throw new BadRequestError('Missing collectionName in request body')
   if (!itemId) throw new BadRequestError('Missing itemId in request body')
 
-  const item = await select(collectionName, `WHERE _id = '${itemId}'`, 0, 1).shift()
+  const item = await select(
+    collectionName,
+    `WHERE _id = '${itemId}'`,
+    0,
+    1
+  ).shift()
   const itemsChanged = await deleteOne(collectionName, itemId)
 
   if (!itemsChanged || !item) {
@@ -70,7 +92,8 @@ exports.remove = async payload => {
 
 exports.count = async payload => {
   const { collectionName } = payload
-  if (!collectionName) throw new BadRequestError('Missing collectionName in request body')
+  if (!collectionName)
+    throw new BadRequestError('Missing collectionName in request body')
 
   const totalCount = await count(collectionName)
 
