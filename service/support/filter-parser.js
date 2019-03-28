@@ -1,4 +1,4 @@
-const BadRequestError = require('../model/error/bad-request')
+const BadRequestError = require('../../model/error/bad-request')
 const mysql = require('mysql')
 
 exports.parseToClause = filter => {
@@ -47,9 +47,9 @@ const parse = filter => {
         .map(s => s.toLowerCase())
         .join('[- ]')}'`
     case '$startsWith':
-      return `${filter.fieldName} LIKE '${filter.value}%'`
+      return `${filter.fieldName} LIKE ${mysql.escape(`${filter.value}%`)}`
     case '$endsWith':
-      return `${filter.fieldName} LIKE '%${filter.value}'`
+      return `${filter.fieldName} LIKE ${mysql.escape(`%${filter.value}`)}`
     case '$eq':
       return `${filter.fieldName} = ${mysql.escape(filter.value)}`
     default:

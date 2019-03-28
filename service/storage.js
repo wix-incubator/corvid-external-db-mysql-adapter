@@ -2,7 +2,7 @@ const uuid = require('uuid/v4')
 const BadRequestError = require('../model/error/bad-request')
 const NotFoundError = require('../model/error/not-found')
 
-const { parseToClause } = require('../filter/parser')
+const { parseToClause } = require('./support/filter-parser')
 const {
   select,
   count,
