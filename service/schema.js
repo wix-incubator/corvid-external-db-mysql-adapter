@@ -11,13 +11,13 @@ exports.find = async payload => {
   return { schemas }
 }
 
-exports.list = async _ => {
+exports.list = async () => {
   const schemas = await extractAllSchemas()
 
   return { schemas }
 }
 
-exports.provision = async payload => {
+exports.provision = async () => {
   await extractAllSchemas()
 
   return { }

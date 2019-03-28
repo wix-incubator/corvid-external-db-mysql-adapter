@@ -38,9 +38,9 @@ exports.insert = async payload => {
 
   if (!item._id) item._id = uuid()
 
-  const item = await insert(collectionName, item)
+  const inserted = await insert(collectionName, item)
 
-  return { item }
+  return { item: inserted }
 }
 
 exports.update = async payload => {
@@ -48,9 +48,9 @@ exports.update = async payload => {
   if (!collectionName) throw new BadRequestError('Missing collectionName in request body')
   if (!item) throw new BadRequestError('Missing item in request body')
 
-  const item = await update(collectionName, item)
+  const updated = await update(collectionName, item)
 
-  return { item }
+  return { item: updated }
 }
 
 exports.remove = async payload => {

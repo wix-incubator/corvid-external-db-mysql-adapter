@@ -19,11 +19,18 @@ const convertFields = columns => {
         displayName: field.name,
         type: extractFieldType(field.type),
         queryOperators: [
-          '$eq',
-          '$lt',
-          '$gt',
-          '$hasSome',
-          '$and'
+          'eq',
+          'lt',
+          'gt',
+          'hasSome',
+          'and',
+          'lte',
+          'gte',
+          'or',
+          'not',
+          'ne',
+          'startsWith',
+          'endsWith'
         ]
       }
     })
@@ -45,14 +52,10 @@ const extractFieldType = dbType => {
     case 'decimal': return 'number'
     case 'bigint': return 'number'
     case 'int': return 'number'
-    case 'bigint': return 'number'
     case 'tinyint': return 'boolean'
     case 'time': return 'text'
     case 'datetime': return 'datetime'
     case 'json': return 'object'
-    default: {
-      console.warn(`Unknown MySQL type for conversion: ${type}. Defaulting to object.`)
-      return 'object'
-    }
+    default: return 'object'
   }
 }
