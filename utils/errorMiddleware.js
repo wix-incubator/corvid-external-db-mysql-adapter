@@ -2,7 +2,6 @@ const BadRequestError = require('../model/error/bad-request')
 const AlreadyExistsError = require('../model/error/already-exists')
 const NotFoundError = require('../model/error/not-found')
 const UnauthorizedError = require('../model/error/unauthorized')
-const UnsupportedTypeError = require('../model/error/unsupported-type')
 
 /**
  * A helper that allows passing errors from async/await functions
@@ -31,10 +30,6 @@ exports.errorMiddleware = (err, req, res, next) => {
       break
     case NotFoundError.name: res
       .status(404)
-      .send({ message: err.message })
-      break
-    case UnsupportedTypeError.name: res
-      .status(500)
       .send({ message: err.message })
       break
     default: res
