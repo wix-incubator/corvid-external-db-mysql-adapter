@@ -1,13 +1,15 @@
 const BadRequestError = require('../../model/error/bad-request')
 const mysql = require('mysql')
 
+const EMPTY = ''
+
 exports.parseToClause = filter => {
   if (filter && filter.operator) {
     const parsed = parse(filter)
-    return parsed ? `WHERE ${parsed}` : parsed
+    return parsed ? `WHERE ${parsed}` : EMPTY
   }
 
-  return ''
+  return EMPTY
 }
 
 const parse = filter => {
@@ -35,17 +37,14 @@ const parse = filter => {
     case '$gte':
       return `${filter.fieldName} >= ${mysql.escape(filter.value)}`
     case '$hasSome':
-      return `${filter.fieldName} IN (${filter.value
-        .map(mysql.escape)
-        .join(', ')})`
-    case '$contains':
-      return `${filter.fieldName} IN (${filter.value
-        .map(mysql.escape)
-        .join(', ')})`
-    case '$urlized':
-      return `LOWER(${filter.fieldName}) RLIKE '${filter.value
-        .map(s => s.toLowerCase())
-        .join('[- ]')}'`
+    case '$contains': {
+      const list = filter.value.map(mysql.escape).join(', ')
+      return list ? `${filter.fieldName} IN (${list})` : EMPTY
+    }
+    case '$urlized': {
+      const list = filter.value.map(s => s.toLowerCase()).join('[- ]')
+      return list ? `LOWER(${filter.fieldName}) RLIKE '${list}'` : EMPTY
+    }
     case '$startsWith':
       return `${filter.fieldName} LIKE ${mysql.escape(`${filter.value}%`)}`
     case '$endsWith':
