@@ -1,7 +1,7 @@
 {
-  "name": "mysql-connector-node",
+  "name": "mysql-adapter-node",
   "version": "1.0.0",
-  "description": "Wix Data MySQL connector example for Node.js",
+  "description": "Wix Data MySQL adapter example for Node.js",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
