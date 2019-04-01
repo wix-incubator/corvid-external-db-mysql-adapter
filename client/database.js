@@ -1,5 +1,5 @@
 const mysql = require('mysql')
-const load = require('../utils/file-loader')
+const { load } = require('../utils/file-loader')
 
 const sqlConfig = load('config.json').sqlConfig
 const connection = mysql.createConnection(sqlConfig)

@@ -1,13 +1,13 @@
 const { assert } = require('chai')
-const { parseToClause } = require('./filter-parser')
+const { parse } = require('./filter-parser')
 const BadRequestError = require('../../model/error/bad-request')
 
-describe.only('Filter Parser', () => {
+describe('Filter Parser', () => {
   describe('parseToClause', () => {
     it('handles empty filter', async () => {
       const filter = null
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, '')
     })
@@ -17,7 +17,7 @@ describe.only('Filter Parser', () => {
         42: true
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, '')
     })
@@ -29,7 +29,7 @@ describe.only('Filter Parser', () => {
         value: []
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, '')
     })
@@ -41,7 +41,7 @@ describe.only('Filter Parser', () => {
         value: []
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, '')
     })
@@ -60,7 +60,7 @@ describe.only('Filter Parser', () => {
         ]
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE (foo = 'bar')")
     })
@@ -79,7 +79,7 @@ describe.only('Filter Parser', () => {
         ]
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE (foo = 'bar')")
     })
@@ -104,7 +104,7 @@ describe.only('Filter Parser', () => {
         ]
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE (foo = 'bar' AND baz = 'boo')")
     })
@@ -129,7 +129,7 @@ describe.only('Filter Parser', () => {
         ]
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE (foo = 'bar' OR baz = 'boo')")
     })
@@ -146,7 +146,7 @@ describe.only('Filter Parser', () => {
         }
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE NOT (foo = 'bar')")
     })
@@ -159,7 +159,7 @@ describe.only('Filter Parser', () => {
         value: 'bar'
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE foo <> 'bar'")
     })
@@ -172,7 +172,7 @@ describe.only('Filter Parser', () => {
         value: 'bar'
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE foo < 'bar'")
     })
@@ -185,7 +185,7 @@ describe.only('Filter Parser', () => {
         value: 'bar'
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE foo <= 'bar'")
     })
@@ -198,7 +198,7 @@ describe.only('Filter Parser', () => {
         value: 'bar'
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE foo > 'bar'")
     })
@@ -211,7 +211,7 @@ describe.only('Filter Parser', () => {
         value: 'bar'
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE foo >= 'bar'")
     })
@@ -224,7 +224,7 @@ describe.only('Filter Parser', () => {
         value: []
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, '')
     })
@@ -237,7 +237,7 @@ describe.only('Filter Parser', () => {
         value: ['bar', 'baz']
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE foo IN ('bar', 'baz')")
     })
@@ -250,7 +250,7 @@ describe.only('Filter Parser', () => {
         value: ['bar', 'baz']
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE foo IN ('bar', 'baz')")
     })
@@ -263,7 +263,7 @@ describe.only('Filter Parser', () => {
         value: []
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, '')
     })
@@ -276,7 +276,7 @@ describe.only('Filter Parser', () => {
         value: []
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, '')
     })
@@ -289,7 +289,7 @@ describe.only('Filter Parser', () => {
         value: ['BaR', '42', 'baz']
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE LOWER(foo) RLIKE 'bar[- ]42[- ]baz'")
     })
@@ -302,7 +302,7 @@ describe.only('Filter Parser', () => {
         value: 'bar'
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE foo LIKE 'bar%'")
     })
@@ -315,7 +315,7 @@ describe.only('Filter Parser', () => {
         value: 'bar'
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE foo LIKE '%bar'")
     })
@@ -328,7 +328,7 @@ describe.only('Filter Parser', () => {
         value: 'bar'
       }
 
-      const result = parseToClause(filter)
+      const result = parse(filter)
 
       assert.equal(result, "WHERE foo = 'bar'")
     })
@@ -341,7 +341,7 @@ describe.only('Filter Parser', () => {
         value: 'bar'
       }
 
-      const throwing = () => parseToClause(filter)
+      const throwing = () => parse(filter)
 
       assert.throws(
         throwing,

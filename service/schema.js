@@ -1,6 +1,6 @@
 const BadRequestError = require('../model/error/bad-request')
 const { describeDatabase } = require('../client/database')
-const convertTable = require('./support/table-converter')
+const { convert } = require('./support/table-converter')
 
 exports.find = async payload => {
   const { schemaIds } = payload
@@ -27,5 +27,5 @@ exports.provision = async () => {
 
 const extractAllSchemas = async () => {
   const tables = await describeDatabase()
-  return tables.map(convertTable)
+  return tables.map(convert)
 }

@@ -3,27 +3,27 @@ const mysql = require('mysql')
 
 const EMPTY = ''
 
-exports.parseToClause = filter => {
+exports.parse = filter => {
   if (filter && filter.operator) {
-    const parsed = parse(filter)
+    const parsed = parseInternal(filter)
     return parsed ? `WHERE ${parsed}` : EMPTY
   }
 
   return EMPTY
 }
 
-const parse = filter => {
+const parseInternal = filter => {
   switch (filter.operator) {
     case '$and': {
-      const value = filter.value.map(parse).join(' AND ')
+      const value = filter.value.map(parseInternal).join(' AND ')
       return value ? `(${value})` : value
     }
     case '$or': {
-      const value = filter.value.map(parse).join(' OR ')
+      const value = filter.value.map(parseInternal).join(' OR ')
       return value ? `(${value})` : value
     }
     case '$not': {
-      const value = parse(filter.value)
+      const value = parseInternal(filter.value)
       return value ? `NOT (${value})` : value
     }
     case '$ne':
