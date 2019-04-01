@@ -49,8 +49,11 @@ const parseInternal = filter => {
       return `${filter.fieldName} LIKE ${mysql.escape(`${filter.value}%`)}`
     case '$endsWith':
       return `${filter.fieldName} LIKE ${mysql.escape(`%${filter.value}`)}`
-    case '$eq':
-      return `${filter.fieldName} = ${mysql.escape(filter.value)}`
+    case '$eq': {
+      return filter.value === null || filter.value === undefined
+        ? `${filter.fieldName} IS NULL`
+        : `${filter.fieldName} = ${mysql.escape(filter.value)}`
+    }
     default:
       throw new BadRequestError(
         `Filter of type ${filter.operator} is not supported.`

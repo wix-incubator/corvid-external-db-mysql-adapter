@@ -333,6 +333,31 @@ describe('Filter Parser', () => {
       assert.equal(result, "WHERE foo = 'bar'")
     })
 
+    it('handles eq filter with null', async () => {
+      const filter = {
+        kind: 'filter',
+        operator: '$eq',
+        fieldName: 'foo',
+        value: null
+      }
+
+      const result = parse(filter)
+
+      assert.equal(result, 'WHERE foo IS NULL')
+    })
+
+    it('handles eq filter with undefined', async () => {
+      const filter = {
+        kind: 'filter',
+        operator: '$eq',
+        fieldName: 'foo'
+      }
+
+      const result = parse(filter)
+
+      assert.equal(result, 'WHERE foo IS NULL')
+    })
+
     it('throws bad request error for unknown filter', async () => {
       const filter = {
         kind: 'filter',
