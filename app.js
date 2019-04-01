@@ -1,13 +1,13 @@
 const express = require('express')
-const bodyParser = require('body-parser');
-const items = require('./controller/items');
-const schemas = require('./controller/schemas');
-const provision = require('./controller/provision');
-const { wrapError, errorMiddleware } = require('./utils/errorMiddleware')
-const authMiddleware = require('./utils/authMiddleware')
+const bodyParser = require('body-parser')
+const items = require('./controller/items')
+const schemas = require('./controller/schemas')
+const provision = require('./controller/provision')
+const { wrapError, errorMiddleware } = require('./utils/error-middleware')
+const authMiddleware = require('./utils/auth-middleware')
 
 const app = express()
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080
 
 app.use(bodyParser.json())
 app.use(authMiddleware)
@@ -24,6 +24,6 @@ app.post('/provision', wrapError(provision.provision))
 
 app.use(errorMiddleware)
 
-app.listen(
-  port, 
-  () => console.log(`MySQL connector listening on port ${port}!`))
+app.listen(port, () =>
+  console.log(`MySQL connector listening on port ${port}!`)
+)

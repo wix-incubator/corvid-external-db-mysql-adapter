@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "./node_modules/.bin/mocha './**/*.spec.js' --reporter spec"
+    "test": "./node_modules/.bin/mocha './**/*.spec.js' --reporter spec",
+    "deploy": "gcloud app deploy ./app.yaml"
   },
   "keywords": [
     "mysql"
@@ -20,6 +21,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "eslint": "^5.15.3",
     "mocha": "^6.0.2",
     "sinon": "^7.2.7"
   }

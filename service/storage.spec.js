@@ -6,7 +6,6 @@ const expect = chai.expect
 const service = require('./storage')
 
 describe('Storage Service', () => {
-
   describe('find', () => {
     it('is rejected with an error', () => {
       //given
@@ -78,5 +77,4 @@ describe('Storage Service', () => {
       expect(call).to.eventually.be.rejectedWith(Error)
     })
   })
-
 })
