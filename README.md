@@ -25,7 +25,7 @@ The configuration must be stored in a file `config.json` at the root of the pack
 The configuration is a JSON object that contains three **required** keys at the root:
 
 - `secretKey` must contain the secret key that you will use when configuring the adapter in the Wix Editor. Each request to your adapter will contain this secret key under the _requestContext_ key within the payload.
-- `allowedOperations` lists all the operations that this adapter will be allowed to perform. For example, if you want to create a adapter that allows read-only access, you can limit these operations to `["get", "find", "count"]`.
+- `allowedOperations` lists all the operations that this adapter will be allowed to perform. For example, if you want to create an adapter that allows read-only access, you can limit these operations to `["get", "find", "count"]`.
 - `sqlConfig` defines the configuration that will be used to connect to your SQL instance. If you are using Google Cloud SQL as your MySQL hosting solution, the format will be similar to the one shown in the example configuration file. All available configuration options are documented in the [mysqljs/mysql](https://github.com/mysqljs/mysql#connection-options) driver repository.
 
 An example configuration can be found in `config.example.json` file.
@@ -41,11 +41,11 @@ If you have a smaller database, you may benefit from choosing a smaller instance
 - Install the [Google Cloud SDK](https://cloud.google.com/sdk/) for your operating system;
 - Acquire local credentials;
 
-  	```gcloud auth application-default login```
+      ```gcloud auth application-default login```
 
 - Run deployment command in your adapter project folder.
 
-  	```npm run deploy```
+      ```npm run deploy```
 
 - After deployment, access your service at `https://mysql-adapter-dot-<project name>.appspot.com/`
 
