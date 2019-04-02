@@ -2,7 +2,8 @@ const uuid = require('uuid/v4')
 const BadRequestError = require('../model/error/bad-request')
 const NotFoundError = require('../model/error/not-found')
 
-const { parse } = require('./support/filter-parser')
+const { parseFilter } = require('./support/filter-parser')
+const { parseSort } = require('./support/sort-parser')
 const {
   select,
   count,
@@ -12,14 +13,20 @@ const {
 } = require('../client/database')
 
 exports.find = async payload => {
-  const { collectionName, filter, skip, limit } = payload
+  const { collectionName, filter, sort, skip, limit } = payload
   if (!collectionName)
     throw new BadRequestError('Missing collectionName in request body')
   if (!skip && skip !== 0)
     throw new BadRequestError('Missing skip in request body')
   if (!limit) throw new BadRequestError('Missing limit in request body')
 
-  const items = await select(collectionName, parse(filter), skip, limit)
+  const items = await select(
+    collectionName,
+    parseFilter(filter),
+    parseSort(sort),
+    skip,
+    limit
+  )
   const totalCount = await count(collectionName)
 
   return { items, totalCount }
@@ -31,12 +38,7 @@ exports.get = async payload => {
     throw new BadRequestError('Missing collectionName in request body')
   if (!itemId) throw new BadRequestError('Missing itemId in request body')
 
-  const item = (await select(
-    collectionName,
-    `WHERE _id = '${itemId}'`,
-    0,
-    1
-  )).shift()
+  const item = (await select(collectionName, `WHERE _id = '${itemId}'`)).shift()
 
   if (!item) {
     throw new NotFoundError(`Item with id ${itemId} not found.`)
@@ -75,12 +77,7 @@ exports.remove = async payload => {
     throw new BadRequestError('Missing collectionName in request body')
   if (!itemId) throw new BadRequestError('Missing itemId in request body')
 
-  const item = await select(
-    collectionName,
-    `WHERE _id = '${itemId}'`,
-    0,
-    1
-  ).shift()
+  const item = await select(collectionName, `WHERE _id = '${itemId}'`).shift()
   const itemsChanged = await deleteOne(collectionName, itemId)
 
   if (!itemsChanged || !item) {
