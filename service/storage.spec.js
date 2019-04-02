@@ -14,7 +14,8 @@ describe('Storage Service', () => {
   const insertStub = sinon.stub()
   const updateStub = sinon.stub()
   const deleteOneStub = sinon.stub()
-  const parseStub = sinon.stub()
+  const parseFilterStub = sinon.stub()
+  const parseSortStub = sinon.stub()
 
   const service = proxyquire('./storage', {
     '../client/database': {
@@ -25,7 +26,10 @@ describe('Storage Service', () => {
       deleteOne: deleteOneStub
     },
     './support/filter-parser': {
-      parse: parseStub
+      parseFilter: parseFilterStub
+    },
+    './support/sort-parser': {
+      parseSort: parseSortStub
     }
   })
 
@@ -98,6 +102,12 @@ describe('Storage Service', () => {
           fieldName: 'foo',
           value: 'bar'
         },
+        sort: [
+          {
+            fieldName: 'foo',
+            direction: 'asc'
+          }
+        ],
         skip: 0,
         limit: 50
       }
@@ -106,9 +116,13 @@ describe('Storage Service', () => {
         foo: 'bar'
       }
       const query = 'fooQuery'
+      const sortQuery = 'fooSortQuery'
 
-      parseStub.withArgs(payload.filter).returns(query)
-      selectStub.withArgs(payload.collectionName, query, 0, 50).returns([item])
+      parseFilterStub.withArgs(payload.filter).returns(query)
+      parseSortStub.withArgs(payload.sort).returns(sortQuery)
+      selectStub
+        .withArgs(payload.collectionName, query, sortQuery, 0, 50)
+        .returns([item])
       countStub.withArgs(payload.collectionName).returns(1)
 
       const call = service.find(payload)
@@ -171,12 +185,7 @@ describe('Storage Service', () => {
         foo: 'bar'
       }
       selectStub
-        .withArgs(
-          payload.collectionName,
-          `WHERE _id = '${payload.itemId}'`,
-          0,
-          1
-        )
+        .withArgs(payload.collectionName, `WHERE _id = '${payload.itemId}'`)
         .returns([item])
 
       const call = service.get(payload)

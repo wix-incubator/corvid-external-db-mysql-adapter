@@ -41,12 +41,13 @@ describe('Database', () => {
     it('is successful', () => {
       const table = 'fooTable'
       const clause = "WHERE _id = 'corvid'"
+      const sortClause = "ORDER BY '_id' asc"
       const skip = 0
       const limit = 50
-      const expectedQuery = `SELECT * FROM ${table} ${clause} LIMIT ${skip}, ${limit}`
+      const expectedQuery = `SELECT * FROM ${table} ${clause} ${sortClause} LIMIT ${skip}, ${limit}`
       const expected = sinon.mock()
 
-      const call = service.select(table, clause, skip, limit)
+      const call = service.select(table, clause, sortClause, skip, limit)
 
       const actualQuery = queryStub.getCall(0).args[0]
       const callback = queryStub.getCall(0).args[2]
@@ -58,12 +59,13 @@ describe('Database', () => {
     it('is rejected', () => {
       const table = 'fooTable'
       const clause = "WHERE _id = 'corvid'"
+      const sortClause = ''
       const skip = 0
       const limit = 50
-      const expectedQuery = `SELECT * FROM ${table} ${clause} LIMIT ${skip}, ${limit}`
+      const expectedQuery = `SELECT * FROM ${table} ${clause} ${sortClause} LIMIT ${skip}, ${limit}`
       const err = new Error('BirdIsTheWord')
 
-      const call = service.select(table, clause, skip, limit)
+      const call = service.select(table, clause, sortClause, skip, limit)
 
       const actualQuery = queryStub.getCall(0).args[0]
       const callback = queryStub.getCall(0).args[2]

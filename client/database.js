@@ -4,9 +4,9 @@ const { load } = require('../utils/file-loader')
 const sqlConfig = load('config.json').sqlConfig
 const connection = mysql.createConnection(sqlConfig)
 
-exports.select = (table, clause, skip, limit) =>
+exports.select = (table, clause = '', sortClause = '', skip = 0, limit = 1) =>
   query(
-    `SELECT * FROM ${table} ${clause} LIMIT ${skip}, ${limit}`,
+    `SELECT * FROM ${table} ${clause} ${sortClause} LIMIT ${skip}, ${limit}`,
     {},
     identity => identity
   )

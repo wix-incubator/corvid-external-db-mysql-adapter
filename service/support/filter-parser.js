@@ -3,7 +3,7 @@ const mysql = require('mysql')
 
 const EMPTY = ''
 
-exports.parse = filter => {
+exports.parseFilter = filter => {
   if (filter && filter.operator) {
     const parsed = parseInternal(filter)
     return parsed ? `WHERE ${parsed}` : EMPTY
