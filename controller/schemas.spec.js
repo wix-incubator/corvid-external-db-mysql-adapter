@@ -15,7 +15,6 @@ describe('Schemas Controller', () => {
 
   describe('findSchemas', () => {
     it('calls schema and responds with JSON', async () => {
-      //given
       const req = { body: 42 }
       const payload = { foo: 'bar' }
       sandbox
@@ -25,10 +24,8 @@ describe('Schemas Controller', () => {
       const jsonResponseHandler = sandbox.stub()
       const responseHandlers = { json: jsonResponseHandler }
 
-      //when
       await controller.findSchemas(req, responseHandlers)
 
-      //then
       sandbox.assert.calledOnce(jsonResponseHandler)
       sandbox.assert.calledWith(jsonResponseHandler, payload)
     })
@@ -36,7 +33,6 @@ describe('Schemas Controller', () => {
 
   describe('listSchemas', () => {
     it('calls schema and responds with JSON', async () => {
-      //given
       const req = { body: 42 }
       const payload = { foo: 'bar' }
       sandbox
@@ -46,10 +42,8 @@ describe('Schemas Controller', () => {
       const jsonResponseHandler = sandbox.stub()
       const responseHandlers = { json: jsonResponseHandler }
 
-      //when
       await controller.listSchemas(req, responseHandlers)
 
-      //then
       sandbox.assert.calledOnce(jsonResponseHandler)
       sandbox.assert.calledWith(jsonResponseHandler, payload)
     })

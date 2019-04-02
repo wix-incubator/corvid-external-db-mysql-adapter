@@ -15,7 +15,6 @@ describe('Items Controller', () => {
 
   describe('findItems', () => {
     it('calls storage and responds with JSON', async () => {
-      //given
       const req = { body: 42 }
       const payload = { foo: 'bar' }
       sandbox
@@ -25,10 +24,8 @@ describe('Items Controller', () => {
       const jsonResponseHandler = sandbox.stub()
       const responseHandlers = { json: jsonResponseHandler }
 
-      //when
       await controller.findItems(req, responseHandlers)
 
-      //then
       sandbox.assert.calledOnce(jsonResponseHandler)
       sandbox.assert.calledWith(jsonResponseHandler, payload)
     })
@@ -36,7 +33,6 @@ describe('Items Controller', () => {
 
   describe('getItem', () => {
     it('calls storage and responds with JSON', async () => {
-      //given
       const req = { body: 42 }
       const payload = { foo: 'bar' }
       sandbox
@@ -46,10 +42,8 @@ describe('Items Controller', () => {
       const jsonResponseHandler = sandbox.stub()
       const responseHandlers = { json: jsonResponseHandler }
 
-      //when
       await controller.getItem(req, responseHandlers)
 
-      //then
       sandbox.assert.calledOnce(jsonResponseHandler)
       sandbox.assert.calledWith(jsonResponseHandler, payload)
     })
@@ -57,7 +51,6 @@ describe('Items Controller', () => {
 
   describe('insertItem', () => {
     it('calls storage and responds with JSON', async () => {
-      //given
       const req = { body: 42 }
       const payload = { foo: 'bar' }
       sandbox
@@ -67,10 +60,8 @@ describe('Items Controller', () => {
       const jsonResponseHandler = sandbox.stub()
       const responseHandlers = { json: jsonResponseHandler }
 
-      //when
       await controller.insertItem(req, responseHandlers)
 
-      //then
       sandbox.assert.calledOnce(jsonResponseHandler)
       sandbox.assert.calledWith(jsonResponseHandler, payload)
     })
@@ -78,7 +69,6 @@ describe('Items Controller', () => {
 
   describe('updateItem', () => {
     it('calls storage and responds with JSON', async () => {
-      //given
       const req = { body: 42 }
       const payload = { foo: 'bar' }
       sandbox
@@ -88,10 +78,8 @@ describe('Items Controller', () => {
       const jsonResponseHandler = sandbox.stub()
       const responseHandlers = { json: jsonResponseHandler }
 
-      //when
       await controller.updateItem(req, responseHandlers)
 
-      //then
       sandbox.assert.calledOnce(jsonResponseHandler)
       sandbox.assert.calledWith(jsonResponseHandler, payload)
     })
@@ -99,7 +87,6 @@ describe('Items Controller', () => {
 
   describe('removeItem', () => {
     it('calls storage and responds with JSON', async () => {
-      //given
       const req = { body: 42 }
       const payload = { foo: 'bar' }
       sandbox
@@ -109,10 +96,8 @@ describe('Items Controller', () => {
       const jsonResponseHandler = sandbox.stub()
       const responseHandlers = { json: jsonResponseHandler }
 
-      //when
       await controller.removeItem(req, responseHandlers)
 
-      //then
       sandbox.assert.calledOnce(jsonResponseHandler)
       sandbox.assert.calledWith(jsonResponseHandler, payload)
     })
@@ -120,7 +105,6 @@ describe('Items Controller', () => {
 
   describe('countItems', () => {
     it('calls storage and responds with JSON', async () => {
-      //given
       const req = { body: 42 }
       const payload = { foo: 'bar' }
       sandbox
@@ -130,10 +114,8 @@ describe('Items Controller', () => {
       const jsonResponseHandler = sandbox.stub()
       const responseHandlers = { json: jsonResponseHandler }
 
-      //when
       await controller.countItems(req, responseHandlers)
 
-      //then
       sandbox.assert.calledOnce(jsonResponseHandler)
       sandbox.assert.calledWith(jsonResponseHandler, payload)
     })

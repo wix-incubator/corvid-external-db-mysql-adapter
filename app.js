@@ -24,6 +24,4 @@ app.post('/provision', wrapError(provision.provision))
 
 app.use(errorMiddleware)
 
-app.listen(port, () =>
-  console.log(`MySQL connector listening on port ${port}!`)
-)
+app.listen(port, () => console.log(`MySQL adapter listening on port ${port}!`))

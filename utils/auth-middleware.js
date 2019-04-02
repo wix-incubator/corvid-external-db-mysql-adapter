@@ -1,6 +1,6 @@
 const BadRequestError = require('../model/error/bad-request')
 const UnauthorizedError = require('../model/error/unauthorized')
-const load = require('./file-loader')
+const { load } = require('./file-loader')
 const { configValidator } = require('./validators')
 
 const configuredSecretKey = configValidator(load('config.json')).secretKey
@@ -10,8 +10,12 @@ const extractSecretKey = requestContext => {
     throw new BadRequestError('Missing request context')
   }
 
-  if (!requestContext.settings || !requestContext.settings.secretKey) {
-    throw new UnauthorizedError('Missing secret key in request context')
+  if (!requestContext.settings) {
+    throw new BadRequestError('Missing settings in request context')
+  }
+
+  if (!requestContext.settings.secretKey) {
+    throw new BadRequestError('Missing secret key in settings')
   }
 
   return requestContext.settings.secretKey

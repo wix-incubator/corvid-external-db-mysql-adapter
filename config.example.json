@@ -1,9 +1,10 @@
 {
-    "sqlConfig": {
-        "user": "<replace>",
-        "password": "<replace>",
-        "database": "<replace>",
-        "socketPath": "/cloudsql/<replace>"
-    },
-    "secretKey": "<replace>"
+  "sqlConfig": {
+    "user": "<replace>",
+    "password": "<replace>",
+    "database": "<replace>",
+    "socketPath": "/cloudsql/<replace>"
+  },
+  "allowedOperations": ["get", "find", "count", "update", "insert", "remove"],
+  "secretKey": "<replace>"
 }

@@ -1,2 +1,4 @@
 runtime: nodejs10
-service: mysql-connector
+instance_class: F4_1G
+
+service: mysql-adapter

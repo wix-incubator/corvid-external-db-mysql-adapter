@@ -1,12 +1,10 @@
-const load = require('../../utils/file-loader')
+const { load } = require('../../utils/file-loader')
 
-const config = load('config.json')
-
-module.exports = table => {
+exports.convert = table => {
   return {
     displayName: table.table,
     id: table.table,
-    allowedOperations: config.allowedOperations,
+    allowedOperations: load('config.json').allowedOperations,
     maxPageSize: 50,
     ttl: 3600,
     fields: convertFields(table.columns)

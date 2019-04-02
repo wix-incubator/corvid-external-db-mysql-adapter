@@ -2,7 +2,7 @@ const uuid = require('uuid/v4')
 const BadRequestError = require('../model/error/bad-request')
 const NotFoundError = require('../model/error/not-found')
 
-const { parseToClause } = require('./support/filter-parser')
+const { parse } = require('./support/filter-parser')
 const {
   select,
   count,
@@ -19,7 +19,7 @@ exports.find = async payload => {
     throw new BadRequestError('Missing skip in request body')
   if (!limit) throw new BadRequestError('Missing limit in request body')
 
-  const items = await select(collectionName, parseToClause(filter), skip, limit)
+  const items = await select(collectionName, parse(filter), skip, limit)
   const totalCount = await count(collectionName)
 
   return { items, totalCount }
