@@ -88,11 +88,11 @@ exports.remove = async payload => {
 }
 
 exports.count = async payload => {
-  const { collectionName } = payload
+  const { collectionName, filter } = payload
   if (!collectionName)
     throw new BadRequestError('Missing collectionName in request body')
 
-  const totalCount = await count(collectionName)
+  const totalCount = await count(collectionName, parseFilter(filter))
 
   return { totalCount }
 }

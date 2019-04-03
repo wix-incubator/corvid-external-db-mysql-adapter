@@ -28,8 +28,12 @@ exports.deleteOne = (table, itemId) =>
     result => result.affectedRows
   )
 
-exports.count = table =>
-  query(`SELECT COUNT(*) FROM ${table}`, {}, result => result[0]['COUNT(*)'])
+exports.count = (table, clause) =>
+  query(
+    `SELECT COUNT(*) FROM ${table} ${clause}`,
+    {},
+    result => result[0]['COUNT(*)']
+  )
 
 exports.describeDatabase = () =>
   query('SHOW TABLES', {}, async result => {

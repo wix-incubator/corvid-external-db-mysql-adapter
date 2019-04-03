@@ -146,9 +146,10 @@ describe('Database', () => {
   describe('count', () => {
     it('is successful', () => {
       const table = 'fooTable'
-      const expectedQuery = `SELECT COUNT(*) FROM ${table}`
+      const clause = 'WHERE _id = 123'
+      const expectedQuery = `SELECT COUNT(*) FROM ${table} ${clause}`
 
-      const call = service.count(table)
+      const call = service.count(table, clause)
 
       const actualQuery = queryStub.getCall(0).args[0]
       const callback = queryStub.getCall(0).args[2]
