@@ -32,7 +32,7 @@ describe('Sort Parser', () => {
 
       const result = parseSort(sort)
 
-      assert.equal(result, "ORDER BY 'foo' ASC")
+      assert.equal(result, 'ORDER BY foo ASC')
     })
 
     it('handles multiple sort', async () => {
@@ -43,7 +43,7 @@ describe('Sort Parser', () => {
 
       const result = parseSort(sort)
 
-      assert.equal(result, "ORDER BY 'foo' ASC, 'bar' DESC")
+      assert.equal(result, 'ORDER BY foo ASC, bar DESC')
     })
   })
 })
