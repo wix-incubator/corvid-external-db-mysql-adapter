@@ -58,7 +58,7 @@ describe('Schema Service', () => {
         id: 'shouldBeFiltered',
         bar: 'baz'
       }
-      describeDatabaseStub.returns([table1, table2])
+      describeDatabaseStub.returns(Promise.resolve([table1, table2]))
       convertStub.withArgs(table1).returns(schema1)
       convertStub.withArgs(table2).returns(schema2)
 
@@ -82,7 +82,7 @@ describe('Schema Service', () => {
         id: 'playground',
         foo: 'bar'
       }
-      describeDatabaseStub.returns([table])
+      describeDatabaseStub.returns(Promise.resolve([table]))
       convertStub.withArgs(table).returns(schema)
 
       const result = await service.list(payload)
@@ -94,7 +94,7 @@ describe('Schema Service', () => {
 
   describe('provision', () => {
     it('is rejected with an error', () => {
-      describeDatabaseStub.returns([])
+      describeDatabaseStub.returns(Promise.resolve([]))
 
       const call = service.provision()
 

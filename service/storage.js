@@ -77,7 +77,7 @@ exports.remove = async payload => {
     throw new BadRequestError('Missing collectionName in request body')
   if (!itemId) throw new BadRequestError('Missing itemId in request body')
 
-  const item = await select(collectionName, `WHERE _id = '${itemId}'`).shift()
+  const item = (await select(collectionName, `WHERE _id = '${itemId}'`)).shift()
   const itemsChanged = await deleteOne(collectionName, itemId)
 
   if (!itemsChanged || !item) {
