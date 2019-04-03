@@ -1,5 +1,3 @@
-const mysql = require('mysql')
-
 const EMPTY = ''
 
 exports.parseSort = sort => {
@@ -12,5 +10,5 @@ exports.parseSort = sort => {
 }
 
 const parseInternal = entry => {
-  return `${mysql.escape(entry.fieldName)} ${entry.direction.toUpperCase()}`
+  return `${entry.fieldName} ${entry.direction.toUpperCase()}`
 }
