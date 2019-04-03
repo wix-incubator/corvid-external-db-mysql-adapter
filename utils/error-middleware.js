@@ -12,7 +12,7 @@ exports.wrapError = fn => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next)
 }
 
-exports.errorMiddleware = (err, req, res) => {
+exports.errorMiddleware = (err, req, res, next) => {
   switch (err.constructor.name) {
     case BadRequestError.name:
       res.status(400).send({ message: err.message })
