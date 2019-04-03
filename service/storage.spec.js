@@ -122,8 +122,8 @@ describe('Storage Service', () => {
       parseSortStub.withArgs(payload.sort).returns(sortQuery)
       selectStub
         .withArgs(payload.collectionName, query, sortQuery, 0, 50)
-        .returns([item])
-      countStub.withArgs(payload.collectionName).returns(1)
+        .returns(Promise.resolve([item]))
+      countStub.withArgs(payload.collectionName).returns(Promise.resolve(1))
 
       const call = service.find(payload)
 
@@ -186,7 +186,7 @@ describe('Storage Service', () => {
       }
       selectStub
         .withArgs(payload.collectionName, `WHERE _id = '${payload.itemId}'`)
-        .returns([item])
+        .returns(Promise.resolve([item]))
 
       const call = service.get(payload)
 
@@ -232,7 +232,9 @@ describe('Storage Service', () => {
         collectionName: 'playground',
         item
       }
-      insertStub.withArgs(payload.collectionName, payload.item).returns(item)
+      insertStub
+        .withArgs(payload.collectionName, payload.item)
+        .returns(Promise.resolve(item))
 
       const call = service.insert(payload)
 
@@ -256,7 +258,7 @@ describe('Storage Service', () => {
           payload.collectionName,
           sinon.match(val => val._id && val.key === item.key)
         )
-        .returns(inserted)
+        .returns(Promise.resolve(inserted))
 
       const call = service.insert(payload)
 
@@ -302,7 +304,9 @@ describe('Storage Service', () => {
         collectionName: 'playground',
         item
       }
-      updateStub.withArgs(payload.collectionName, payload.item).returns(item)
+      updateStub
+        .withArgs(payload.collectionName, payload.item)
+        .returns(Promise.resolve(item))
 
       const call = service.update(payload)
 
@@ -348,8 +352,10 @@ describe('Storage Service', () => {
       }
       selectStub
         .withArgs(payload.collectionName, `WHERE _id = '${payload.itemId}'`)
-        .returns([item])
-      deleteOneStub.withArgs(payload.collectionName, payload.itemId).returns(0)
+        .returns(Promise.resolve([item]))
+      deleteOneStub
+        .withArgs(payload.collectionName, payload.itemId)
+        .returns(Promise.resolve(0))
 
       const call = service.remove(payload)
 
@@ -370,8 +376,10 @@ describe('Storage Service', () => {
       }
       selectStub
         .withArgs(payload.collectionName, `WHERE _id = '${payload.itemId}'`)
-        .returns([item])
-      deleteOneStub.withArgs(payload.collectionName, payload.itemId).returns(1)
+        .returns(Promise.resolve([item]))
+      deleteOneStub
+        .withArgs(payload.collectionName, payload.itemId)
+        .returns(Promise.resolve(1))
 
       const call = service.remove(payload)
 
