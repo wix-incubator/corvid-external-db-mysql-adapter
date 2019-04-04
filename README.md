@@ -4,7 +4,7 @@
 
 This project is a Node.js based example of an external database collection adapter for MySQL databases, implemented on a Corvid by Wix site.
 
-You can use this project **as a basis** for deploying your own adapter to the Google AppEngine. This project contains an example implementation of the external database collection SPI that has filtering, authorization and error handling support.
+You can use this project as a basis for deploying your own adapter to the Google AppEngine. This project contains an example implementation of the external database collection SPI that has filtering, authorization and error handling support.
 
 ## Installation
 
@@ -15,14 +15,14 @@ To use this example, you need to define your own _configuration_ for your adapte
 To work with this example clone this repository on your local machine:
 
 ```
-git clone <repository url>
+git clone git@github.com:wix/corvid-external-db-mysql-adapter.git
 ```
 
 ### Configuration
 
 The configuration must be stored in a `config.json` file at the root of the package. This file is not duplicated in the cloning process, so let's create one of your own.
 
-The configuration is a JSON object that contains three **required** keys at the root:
+The configuration is a JSON object that contains three required keys at the root:
 
 - `secretKey`: The secret key that you will use when configuring the adapter in the Wix Editor. Each request to your adapter will contain this secret key in the _requestContext_ key inside the payload.
 - `allowedOperations`: The list of all the operations that this adapter will be allowed to perform. For example, if you want to create an adapter that allows read-only access, you can limit these operations to `["get", "find", "count"]`.
@@ -32,7 +32,7 @@ An example configuration can be found in `config.example.json` file.
 
 ### Instance Size
 
-The default AppEngine instance size that this adapter runs on is configured to be **F4_1G**. It works well for large tables of several gigabytes or larger and executing complex and large queries.
+The default AppEngine instance size that this adapter runs on is configured to be F4_1G. It works well for large tables of several gigabytes or larger and executing complex and large queries.
 
 If you have a smaller database, you may want to choose a smaller instance type which can cost less. All the available instance types are documented in the [Google AppEngine Pricing](https://cloud.google.com/appengine/pricing) page. You can change the instance type in `app.yaml` file at the root of the project.
 
@@ -76,4 +76,4 @@ Currently, the driver has authentication in the form of a _secret key_ (see docu
 
 The secret key gets deployed together with the adapter to Google AppEngine. Every request made to the adapter is then verified against the secret key.
 
-The authentication functionality can be further extended by modifying the `utils/auth-middleware.js` file.
+The authentication functionality can be further extended by modifying the `utils/auth-middleware` module.
