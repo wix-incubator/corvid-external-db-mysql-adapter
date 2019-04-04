@@ -195,6 +195,24 @@ describe('Table Converter', () => {
       assert.deepEqual(result.fields, expectedFields)
     })
 
+    it('converts date column correctly', async () => {
+      const table = aTable({
+        name: 'foo',
+        type: 'date'
+      })
+      const expectedFields = {
+        foo: {
+          displayName: 'foo',
+          type: 'datetime',
+          queryOperators: supportedOperators
+        }
+      }
+
+      const result = convert(table)
+
+      assert.deepEqual(result.fields, expectedFields)
+    })
+
     it('converts time column correctly', async () => {
       const table = aTable({
         name: 'foo',
@@ -203,7 +221,7 @@ describe('Table Converter', () => {
       const expectedFields = {
         foo: {
           displayName: 'foo',
-          type: 'text',
+          type: 'datetime',
           queryOperators: supportedOperators
         }
       }

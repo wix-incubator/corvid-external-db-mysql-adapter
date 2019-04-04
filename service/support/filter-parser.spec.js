@@ -1,4 +1,5 @@
 const { assert } = require('chai')
+const mysql = require('mysql')
 const { parseFilter } = require('./filter-parser')
 const BadRequestError = require('../../model/error/bad-request')
 
@@ -164,6 +165,21 @@ describe('Filter Parser', () => {
       assert.equal(result, "WHERE foo <> 'bar'")
     })
 
+    it('handles ne filter with date', async () => {
+      const date = new Date()
+      const dateIso = date.toISOString()
+      const filter = {
+        kind: 'filter',
+        operator: '$ne',
+        fieldName: 'foo',
+        value: dateIso
+      }
+
+      const result = parseFilter(filter)
+
+      assert.equal(result, `WHERE foo <> ${mysql.escape(date)}`)
+    })
+
     it('handles lt filter', async () => {
       const filter = {
         kind: 'filter',
@@ -175,6 +191,21 @@ describe('Filter Parser', () => {
       const result = parseFilter(filter)
 
       assert.equal(result, "WHERE foo < 'bar'")
+    })
+
+    it('handles lt filter with date', async () => {
+      const date = new Date()
+      const dateIso = date.toISOString()
+      const filter = {
+        kind: 'filter',
+        operator: '$lt',
+        fieldName: 'foo',
+        value: dateIso
+      }
+
+      const result = parseFilter(filter)
+
+      assert.equal(result, `WHERE foo < ${mysql.escape(date)}`)
     })
 
     it('handles lte filter', async () => {
@@ -190,6 +221,21 @@ describe('Filter Parser', () => {
       assert.equal(result, "WHERE foo <= 'bar'")
     })
 
+    it('handles lte filter with date', async () => {
+      const date = new Date()
+      const dateIso = date.toISOString()
+      const filter = {
+        kind: 'filter',
+        operator: '$lte',
+        fieldName: 'foo',
+        value: dateIso
+      }
+
+      const result = parseFilter(filter)
+
+      assert.equal(result, `WHERE foo <= ${mysql.escape(date)}`)
+    })
+
     it('handles gt filter', async () => {
       const filter = {
         kind: 'filter',
@@ -203,6 +249,21 @@ describe('Filter Parser', () => {
       assert.equal(result, "WHERE foo > 'bar'")
     })
 
+    it('handles gt filter with date', async () => {
+      const date = new Date()
+      const dateIso = date.toISOString()
+      const filter = {
+        kind: 'filter',
+        operator: '$gt',
+        fieldName: 'foo',
+        value: dateIso
+      }
+
+      const result = parseFilter(filter)
+
+      assert.equal(result, `WHERE foo > ${mysql.escape(date)}`)
+    })
+
     it('handles gte filter', async () => {
       const filter = {
         kind: 'filter',
@@ -214,6 +275,21 @@ describe('Filter Parser', () => {
       const result = parseFilter(filter)
 
       assert.equal(result, "WHERE foo >= 'bar'")
+    })
+
+    it('handles gte filter with date', async () => {
+      const date = new Date()
+      const dateIso = date.toISOString()
+      const filter = {
+        kind: 'filter',
+        operator: '$gte',
+        fieldName: 'foo',
+        value: dateIso
+      }
+
+      const result = parseFilter(filter)
+
+      assert.equal(result, `WHERE foo >= ${mysql.escape(date)}`)
     })
 
     it('handles empty hasSome filter', async () => {
@@ -242,6 +318,21 @@ describe('Filter Parser', () => {
       assert.equal(result, "WHERE foo IN ('bar', 'baz')")
     })
 
+    it('handles hasSome filter with date', async () => {
+      const date = new Date()
+      const dateIso = date.toISOString()
+      const filter = {
+        kind: 'filter',
+        operator: '$hasSome',
+        fieldName: 'foo',
+        value: [dateIso]
+      }
+
+      const result = parseFilter(filter)
+
+      assert.equal(result, `WHERE foo IN (${mysql.escape(date)})`)
+    })
+
     it('handles contains filter', async () => {
       const filter = {
         kind: 'filter',
@@ -253,6 +344,21 @@ describe('Filter Parser', () => {
       const result = parseFilter(filter)
 
       assert.equal(result, "WHERE foo IN ('bar', 'baz')")
+    })
+
+    it('handles contains filter with date', async () => {
+      const date = new Date()
+      const dateIso = date.toISOString()
+      const filter = {
+        kind: 'filter',
+        operator: '$contains',
+        fieldName: 'foo',
+        value: [dateIso]
+      }
+
+      const result = parseFilter(filter)
+
+      assert.equal(result, `WHERE foo IN (${mysql.escape(date)})`)
     })
 
     it('handles empty contains filter', async () => {
