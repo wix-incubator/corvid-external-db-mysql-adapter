@@ -20,14 +20,15 @@ exports.find = async payload => {
     throw new BadRequestError('Missing skip in request body')
   if (!limit) throw new BadRequestError('Missing limit in request body')
 
-  const items = await select(
+  const parsedFilter = parseFilter(filter)
+  const items = (await select(
     collectionName,
-    parseFilter(filter),
+    parsedFilter,
     parseSort(sort),
     skip,
     limit
-  )
-  const totalCount = await count(collectionName)
+  )).map(wrapDates)
+  const totalCount = await count(collectionName, parsedFilter)
 
   return { items, totalCount }
 }
@@ -38,7 +39,9 @@ exports.get = async payload => {
     throw new BadRequestError('Missing collectionName in request body')
   if (!itemId) throw new BadRequestError('Missing itemId in request body')
 
-  const item = (await select(collectionName, `WHERE _id = '${itemId}'`)).shift()
+  const item = (await select(collectionName, `WHERE _id = '${itemId}'`))
+    .map(wrapDates)
+    .shift()
 
   if (!item) {
     throw new NotFoundError(`Item with id ${itemId} not found.`)
@@ -55,7 +58,7 @@ exports.insert = async payload => {
 
   if (!item._id) item._id = uuid()
 
-  const inserted = await insert(collectionName, item)
+  const inserted = wrapDates(await insert(collectionName, item))
 
   return { item: inserted }
 }
@@ -77,7 +80,9 @@ exports.remove = async payload => {
     throw new BadRequestError('Missing collectionName in request body')
   if (!itemId) throw new BadRequestError('Missing itemId in request body')
 
-  const item = (await select(collectionName, `WHERE _id = '${itemId}'`)).shift()
+  const item = (await select(collectionName, `WHERE _id = '${itemId}'`))
+    .map(wrapDates)
+    .shift()
   const itemsChanged = await deleteOne(collectionName, itemId)
 
   if (!itemsChanged || !item) {
@@ -95,4 +100,14 @@ exports.count = async payload => {
   const totalCount = await count(collectionName, parseFilter(filter))
 
   return { totalCount }
+}
+
+const wrapDates = item => {
+  Object.keys(item).map(key => {
+    if (item[key] instanceof Date) {
+      item[key] = { $date: item[key] }
+    }
+  })
+
+  return item
 }

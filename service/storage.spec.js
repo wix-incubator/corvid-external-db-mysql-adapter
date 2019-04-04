@@ -123,11 +123,62 @@ describe('Storage Service', () => {
       selectStub
         .withArgs(payload.collectionName, query, sortQuery, 0, 50)
         .returns(Promise.resolve([item]))
-      countStub.withArgs(payload.collectionName).returns(Promise.resolve(1))
+      countStub
+        .withArgs(payload.collectionName, query)
+        .returns(Promise.resolve(1))
 
       const call = service.find(payload)
 
       expect(call).to.eventually.be.deep.equal({ items: [item], totalCount: 1 })
+    })
+
+    it('is successful for dates', () => {
+      const payload = {
+        collectionName: 'playground',
+        filter: {
+          kind: 'filter',
+          operator: '$eq',
+          fieldName: 'foo',
+          value: 'bar'
+        },
+        sort: [
+          {
+            fieldName: 'foo',
+            direction: 'asc'
+          }
+        ],
+        skip: 0,
+        limit: 50
+      }
+      const date = new Date()
+      const item = {
+        _id: '42',
+        foo: date
+      }
+      const expected = {
+        _id: '42',
+        foo: {
+          $date: date
+        }
+      }
+      const query = 'fooQuery'
+      const sortQuery = 'fooSortQuery'
+
+      parseFilterStub.withArgs(payload.filter).returns(query)
+      parseSortStub.withArgs(payload.sort).returns(sortQuery)
+      selectStub
+        .withArgs(payload.collectionName, query, sortQuery, 0, 50)
+        .returns(Promise.resolve([item]))
+      countStub
+        .withArgs(payload.collectionName, query)
+        .returns(Promise.resolve(1))
+
+      const call = service.find(payload)
+
+      expect(call).to.eventually.be.deep.equal({
+        items: [expected],
+        totalCount: 1
+      })
     })
   })
 
@@ -191,6 +242,32 @@ describe('Storage Service', () => {
       const call = service.get(payload)
 
       expect(call).to.eventually.be.deep.equal({ item })
+    })
+
+    it('is successful for dates', () => {
+      const payload = {
+        collectionName: 'playground',
+        itemId: '42'
+      }
+      const date = new Date()
+      const item = {
+        _id: '42',
+        foo: date
+      }
+      const expected = {
+        _id: '42',
+        foo: {
+          $date: date
+        }
+      }
+
+      selectStub
+        .withArgs(payload.collectionName, `WHERE _id = '${payload.itemId}'`)
+        .returns(Promise.resolve([item]))
+
+      const call = service.get(payload)
+
+      expect(call).to.eventually.be.deep.equal({ item: expected })
     })
   })
 
@@ -384,6 +461,35 @@ describe('Storage Service', () => {
       const call = service.remove(payload)
 
       expect(call).to.eventually.be.deep.equal({ item })
+    })
+
+    it('is successful for dates', () => {
+      const payload = {
+        collectionName: 'playground',
+        itemId: 'foo'
+      }
+      const date = new Date()
+      const item = {
+        _id: 'foo',
+        bar: date
+      }
+      const expected = {
+        _id: 'foo',
+        bar: {
+          $date: date
+        }
+      }
+
+      selectStub
+        .withArgs(payload.collectionName, `WHERE _id = '${payload.itemId}'`)
+        .returns(Promise.resolve([item]))
+      deleteOneStub
+        .withArgs(payload.collectionName, payload.itemId)
+        .returns(Promise.resolve(1))
+
+      const call = service.remove(payload)
+
+      expect(call).to.eventually.be.deep.equal({ item: expected })
     })
   })
 

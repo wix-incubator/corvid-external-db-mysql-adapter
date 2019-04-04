@@ -27,18 +27,21 @@ const parseInternal = filter => {
       return value ? `NOT (${value})` : value
     }
     case '$ne':
-      return `${filter.fieldName} <> ${mysql.escape(filter.value)}`
+      return `${filter.fieldName} <> ${mysql.escape(mapValue(filter.value))}`
     case '$lt':
-      return `${filter.fieldName} < ${mysql.escape(filter.value)}`
+      return `${filter.fieldName} < ${mysql.escape(mapValue(filter.value))}`
     case '$lte':
-      return `${filter.fieldName} <= ${mysql.escape(filter.value)}`
+      return `${filter.fieldName} <= ${mysql.escape(mapValue(filter.value))}`
     case '$gt':
-      return `${filter.fieldName} > ${mysql.escape(filter.value)}`
+      return `${filter.fieldName} > ${mysql.escape(mapValue(filter.value))}`
     case '$gte':
-      return `${filter.fieldName} >= ${mysql.escape(filter.value)}`
+      return `${filter.fieldName} >= ${mysql.escape(mapValue(filter.value))}`
     case '$hasSome':
     case '$contains': {
-      const list = filter.value.map(mysql.escape).join(', ')
+      const list = filter.value
+        .map(mapValue)
+        .map(date => mysql.escape(date, null, null))
+        .join(', ')
       return list ? `${filter.fieldName} IN (${list})` : EMPTY
     }
     case '$urlized': {
@@ -52,11 +55,15 @@ const parseInternal = filter => {
     case '$eq': {
       return filter.value === null || filter.value === undefined
         ? `${filter.fieldName} IS NULL`
-        : `${filter.fieldName} = ${mysql.escape(filter.value)}`
+        : `${filter.fieldName} = ${mysql.escape(mapValue(filter.value))}`
     }
     default:
       throw new BadRequestError(
         `Filter of type ${filter.operator} is not supported.`
       )
   }
+}
+
+const mapValue = value => {
+  return Date.parse(value) ? new Date(value) : value
 }

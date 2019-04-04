@@ -48,7 +48,6 @@ const extractFieldType = dbType => {
   switch (type) {
     case 'varchar':
     case 'text':
-    case 'time':
       return 'text'
     case 'decimal':
     case 'bigint':
@@ -56,7 +55,9 @@ const extractFieldType = dbType => {
       return 'number'
     case 'tinyint':
       return 'boolean'
+    case 'date':
     case 'datetime':
+    case 'time':
       return 'datetime'
     case 'json':
     default:

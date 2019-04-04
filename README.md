@@ -63,6 +63,7 @@ Currently, the driver supports these MySQL basic datatypes:
 * `int`,
 * `tinyint`,
 * `time`,
+* `date`,
 * `datetime`,
 * `json`.
 
