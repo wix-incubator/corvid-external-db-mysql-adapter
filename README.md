@@ -2,7 +2,7 @@
   Corvid by Wix Example: External Database Collection Adapter
 </h1>
 
-This project is a Node.js based example of an external database collection adapter for MySQL databases, implemented on a Corvid by Wix site.
+This project is a Node.js based example of an adapter for MySQL databases that lets you integrate an external database with your Corvid enabled Wix site.
 
 You can use this project as a basis for deploying your own adapter to the Google AppEngine. This project contains an example implementation of the external database collection SPI that has filtering, authorization and error handling support.
 
