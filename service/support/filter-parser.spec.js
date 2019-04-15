@@ -277,6 +277,19 @@ describe('Filter Parser', () => {
       assert.equal(result, "WHERE foo >= 'bar'")
     })
 
+    it('does not convert numeric value to date', async () => {
+      const filter = {
+        kind: 'filter',
+        operator: '$gte',
+        fieldName: 'foo',
+        value: 123
+      }
+
+      const result = parseFilter(filter)
+
+      assert.equal(result, 'WHERE foo >= 123')
+    })
+
     it('handles gte filter with date', async () => {
       const date = new Date()
       const dateIso = date.toISOString()
@@ -333,7 +346,7 @@ describe('Filter Parser', () => {
       assert.equal(result, `WHERE foo IN (${mysql.escape(date)})`)
     })
 
-    it('handles contains filter', async () => {
+    it('handles contains filter with array valuie', async () => {
       const filter = {
         kind: 'filter',
         operator: '$contains',
@@ -344,6 +357,19 @@ describe('Filter Parser', () => {
       const result = parseFilter(filter)
 
       assert.equal(result, "WHERE foo IN ('bar', 'baz')")
+    })
+
+    it('handles contains filter with string value', async () => {
+      const filter = {
+        kind: 'filter',
+        operator: '$contains',
+        fieldName: 'foo',
+        value: 'bar'
+      }
+
+      const result = parseFilter(filter)
+
+      assert.equal(result, "WHERE foo LIKE '%bar%'")
     })
 
     it('handles contains filter with date', async () => {

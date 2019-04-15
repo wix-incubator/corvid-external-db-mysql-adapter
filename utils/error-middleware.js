@@ -13,6 +13,8 @@ exports.wrapError = fn => (req, res, next) => {
 }
 
 exports.errorMiddleware = (err, req, res, next) => {
+  console.log(err.message)
+
   switch (err.constructor.name) {
     case BadRequestError.name:
       res.status(400).send({ message: err.message })

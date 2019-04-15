@@ -38,11 +38,15 @@ const parseInternal = filter => {
       return `${filter.fieldName} >= ${mysql.escape(mapValue(filter.value))}`
     case '$hasSome':
     case '$contains': {
-      const list = filter.value
-        .map(mapValue)
-        .map(date => mysql.escape(date, null, null))
-        .join(', ')
-      return list ? `${filter.fieldName} IN (${list})` : EMPTY
+      if (typeof filter.value === 'string') {
+        return `${filter.fieldName} LIKE ${mysql.escape(`%${filter.value}%`)}`
+      } else {
+        const list = filter.value
+          .map(mapValue)
+          .map(date => mysql.escape(date, null, null))
+          .join(', ')
+        return list ? `${filter.fieldName} IN (${list})` : EMPTY
+      }
     }
     case '$urlized': {
       const list = filter.value.map(s => s.toLowerCase()).join('[- ]')
@@ -65,5 +69,7 @@ const parseInternal = filter => {
 }
 
 const mapValue = value => {
-  return Date.parse(value) ? new Date(value) : value
+  return typeof value === 'string' && Date.parse(value)
+    ? new Date(value)
+    : value
 }

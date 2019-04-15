@@ -29,7 +29,8 @@ const convertFields = columns => {
           'not',
           'ne',
           'startsWith',
-          'endsWith'
+          'endsWith',
+          'urlized'
         ]
       }
     })

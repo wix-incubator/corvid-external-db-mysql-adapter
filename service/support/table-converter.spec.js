@@ -14,7 +14,8 @@ const supportedOperators = [
   'not',
   'ne',
   'startsWith',
-  'endsWith'
+  'endsWith',
+  'urlized'
 ]
 
 const aTable = (...columns) => {
