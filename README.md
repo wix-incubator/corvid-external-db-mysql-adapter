@@ -6,6 +6,10 @@ This project is a Node.js based example of an adapter for MySQL databases that l
 
 You can use this project as a basis for deploying your own adapter to the Google AppEngine. This project contains an example implementation of the external database collection SPI that has filtering, authorization and error handling support.
 
+See [here](https://support.wix.com/en/corvid-by-wix/external-database-collections-1023416) to learn more about working with external database collections in Corvid. 
+
+See our SPI documentation [here](https://www.wix.com/corvid/reference/external-database-collections.html).
+
 ## Installation
 
 To use this example, you need to define your own _configuration_ for your adapter. These settings will be deployed alongside your Node artifact on the engine of your choice.
