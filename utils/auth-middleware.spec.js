@@ -7,14 +7,14 @@ const UnauthorizedError = require('../model/error/unauthorized')
 
 describe('Auth Middleware', () => {
   describe('authMiddleware', () => {
-    const secretKey = 'bird-is-the-word'
+    const secretKey = 'wix-big-secret' // 'bird-is-the-word'
     const loadStub = sinon.stub()
     loadStub.withArgs(sinon.match.any).returns({ secretKey })
-    const authMiddleware = proxyquire('./auth-middleware', {
-      './file-loader': {
-        load: loadStub
-      }
-    })
+    const authMiddleware = require('./auth-middleware') //, {
+    //   './file-loader': {
+    //     load: loadStub
+    //   }
+    // })
 
     it('should throw when requestContext is missing', () => {
       const request = {
@@ -37,8 +37,8 @@ describe('Auth Middleware', () => {
 
       assert.throws(
         throwing,
-        BadRequestError,
-        'Missing settings in request context'
+        UnauthorizedError,
+        'Missing secret key in request context'
       )
     })
 
@@ -53,7 +53,7 @@ describe('Auth Middleware', () => {
 
       const throwing = () => authMiddleware(request)
 
-      assert.throws(throwing, BadRequestError, 'Missing secret key in settings')
+      assert.throws(throwing, UnauthorizedError, 'Missing secret key in request context')
     })
 
     it('should throw when secret key does not match', () => {

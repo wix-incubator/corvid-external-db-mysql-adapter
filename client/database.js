@@ -1,8 +1,9 @@
 const mysql = require('mysql')
-const { load } = require('../utils/file-loader')
 
-const sqlConfig = load('config.json').sqlConfig
-const connection = mysql.createConnection(sqlConfig)
+const sqlConfig = JSON.parse(process.env.SQL_CONFIG);
+
+//console.log('Working with sql config: ' + JSON.stringify(sqlConfig))
+const connection = mysql.createConnection(sqlConfig);
 
 exports.select = (table, clause = '', sortClause = '', skip = 0, limit = 1) =>
   query(
