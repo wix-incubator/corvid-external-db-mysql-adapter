@@ -1,7 +1,7 @@
 {
   "name": "mysql-adapter-node",
   "version": "1.0.0",
-  "description": "Wix Data MySQL adapter example for Node.js",
+  "description": "Wix Data basic MySQL adapter for Node.js",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -17,7 +17,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "mysql": "^2.16.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",

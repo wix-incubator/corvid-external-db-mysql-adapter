@@ -7,6 +7,8 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 
 describe('Database', () => {
+
+  process.env['SQL_CONFIG'] = '{ "database":"fooDb" }'
   const escapeStub = sinon.stub()
   const queryStub = sinon.stub()
 
@@ -18,17 +20,10 @@ describe('Database', () => {
       escape: escapeStub,
       query: queryStub
     })
-  const loadStub = sinon
-    .stub()
-    .withArgs('config.json')
-    .returns({ sqlConfig })
 
   const service = proxyquire('./database', {
     mysql: {
       createConnection: createConnectionStub
-    },
-    '../utils/file-loader': {
-      load: loadStub
     }
   })
 

@@ -1,6 +1,5 @@
 const { assert } = require('chai')
 const sinon = require('sinon')
-const proxyquire = require('proxyquire')
 
 const supportedOperators = [
   'eq',
@@ -25,26 +24,22 @@ const aTable = (...columns) => {
 }
 
 describe('Table Converter', () => {
-  const fileLoaderStub = sinon.stub()
-  const convert = proxyquire('./table-converter', {
-    '../../utils/file-loader': {
-      load: fileLoaderStub
-    }
-  }).convert
+  //const fileLoaderStub = sinon.stub(process.env.ALLOWED_OPERATIONS).value([]);
+  
+  const convert = require('./table-converter').convert
 
   describe('convert base', () => {
     it('converts basic table data correctly', async () => {
+      
       const table = aTable()
-      const mockAllowedOperations = ['$foo']
-      fileLoaderStub.withArgs('config.json').returns({
-        allowedOperations: mockAllowedOperations
-      })
-
+      const mockAllowedOperations = ['foo', 'bar']
+      process.env['ALLOWED_OPERATIONS'] = '["foo", "bar"]';
+      
       const result = convert(table)
 
       assert.equal(result.displayName, table.table)
       assert.equal(result.id, table.table)
-      assert.equal(result.allowedOperations, mockAllowedOperations)
+      assert.deepEqual(result.allowedOperations, mockAllowedOperations)
       assert.equal(result.id, table.table)
       assert.equal(result.maxPageSize, 50)
       assert.equal(result.ttl, 3600)
@@ -52,12 +47,7 @@ describe('Table Converter', () => {
   })
 
   describe('convert', () => {
-    beforeEach(() => {
-      fileLoaderStub.withArgs('config.json').returns({
-        allowedOperations: []
-      })
-    })
-
+    
     it('converts multiple fields correctly', async () => {
       const table = aTable(
         {

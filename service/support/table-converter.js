@@ -1,10 +1,15 @@
-const { load } = require('../../utils/file-loader')
-
 exports.convert = table => {
+
+  let allowedOperations = ["get", "find", "count", "update", "insert", "remove"];
+
+  if (process.env.ALLOWED_OPERATIONS){
+    allowedOperations = JSON.parse(process.env.ALLOWED_OPERATIONS); 
+  }
+
   return {
     displayName: table.table,
     id: table.table,
-    allowedOperations: load('config.json').allowedOperations,
+    allowedOperations: allowedOperations,
     maxPageSize: 50,
     ttl: 3600,
     fields: convertFields(table.columns)
