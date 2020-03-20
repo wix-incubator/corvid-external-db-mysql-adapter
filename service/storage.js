@@ -51,14 +51,16 @@ exports.get = async payload => {
 }
 
 exports.insert = async payload => {
+
   const { collectionName, item } = payload
+  
   if (!collectionName)
     throw new BadRequestError('Missing collectionName in request body')
   if (!item) throw new BadRequestError('Missing item in request body')
 
   if (!item._id) item._id = uuid()
 
-  const inserted = wrapDates(await insert(collectionName, item))
+  const inserted = await insert(collectionName, wrapDates(item));
 
   return { item: inserted }
 }
@@ -69,7 +71,7 @@ exports.update = async payload => {
     throw new BadRequestError('Missing collectionName in request body')
   if (!item) throw new BadRequestError('Missing item in request body')
 
-  const updated = await update(collectionName, item)
+  const updated = await update(collectionName, wrapDates(item));
 
   return { item: updated }
 }
@@ -104,9 +106,8 @@ exports.count = async payload => {
 
 const wrapDates = item => {
   Object.keys(item).map(key => {
-    if (item[key] instanceof Date) {
-      item[key] = { $date: item[key] }
-    }
+    const value = item[key];
+    item[key] = Date.parse(value) ? new Date(value) : value;
   })
 
   return item

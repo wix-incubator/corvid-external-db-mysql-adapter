@@ -67,6 +67,7 @@ const query = (query, values, handler) =>
   new Promise((resolve, reject) => {
     connection.query(query, values, (err, results, fields) => {
       if (err) {
+        console.log(err);
         reject(err)
       }
 
