@@ -60,7 +60,7 @@ exports.insert = async payload => {
 
   if (!item._id) item._id = uuid()
 
-  const inserted = await insert(collectionName, wrapDates(item));
+  const inserted = wrapDates(await insert(collectionName, extractDates(item), collectionName));
 
   return { item: inserted }
 }
@@ -71,7 +71,7 @@ exports.update = async payload => {
     throw new BadRequestError('Missing collectionName in request body')
   if (!item) throw new BadRequestError('Missing item in request body')
 
-  const updated = await update(collectionName, wrapDates(item));
+  const updated = wrapDates(await update(collectionName, extractDates(item), collectionName));
 
   return { item: updated }
 }
@@ -104,11 +104,35 @@ exports.count = async payload => {
   return { totalCount }
 }
 
-const wrapDates = item => {
+const extractDates = item => {
   Object.keys(item).map(key => {
     const value = item[key];
-    item[key] = Date.parse(value) ? new Date(value) : value;
+    if (value === null) return;
+
+    const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/;
+
+    if (typeof value === 'object' && '$date' in value) {
+      item[key] = new Date(value['$date']);
+    }
+
+    if (typeof value === 'string') {
+      const re = reISO.exec(value);
+      if (re) {
+        item[key] = new Date(value);
+      }
+    }
   })
+
+  return item
+}
+
+const wrapDates = item => {
+  Object.keys(item)
+    .map(key => {
+      if (item[key] instanceof Date) {
+        item[key] = { $date: item[key] }
+      }
+    })
 
   return item
 }

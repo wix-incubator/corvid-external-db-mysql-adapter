@@ -13,6 +13,11 @@ exports.parseFilter = filter => {
 }
 
 const parseInternal = filter => {
+
+  if (!filter || filter.operator === undefined) {
+    return "TRUE = TRUE";
+  }
+
   switch (filter.operator) {
     case '$and': {
       const value = filter.value.map(parseInternal).join(' AND ')
@@ -23,7 +28,7 @@ const parseInternal = filter => {
       return value ? `(${value})` : value
     }
     case '$not': {
-      const value = parseInternal(filter.value)
+      const value = parseInternal(filter.value[0])
       return value ? `NOT (${value})` : value
     }
     case '$ne':
@@ -36,7 +41,7 @@ const parseInternal = filter => {
       return `${filter.fieldName} > ${mysql.escape(mapValue(filter.value))}`
     case '$gte':
       return `${filter.fieldName} >= ${mysql.escape(mapValue(filter.value))}`
-    case '$hasSome': {    
+    case '$hasSome': {
       const list = filter.value
         .map(mapValue)
         .map(date => mysql.escape(date, null, null))
@@ -44,6 +49,9 @@ const parseInternal = filter => {
       return list ? `${filter.fieldName} IN (${list})` : EMPTY
     }
     case '$contains':
+      if (!filter.value || (filter.value && filter.value.length === 0)) {
+        return '';
+      }
       return `${filter.fieldName} LIKE ${mysql.escape(`%${filter.value}%`)}`
     case '$urlized': {
       const list = filter.value.map(s => s.toLowerCase()).join('[- ]')
@@ -66,5 +74,21 @@ const parseInternal = filter => {
 }
 
 const mapValue = value => {
-  return Date.parse(value) ? new Date(value) : value
+
+  if (value === null || value === undefined) return null;
+
+  const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/;
+
+  if (typeof value === 'object' && '$date' in value) {
+    return new Date(value['$date']);
+  }
+
+  if (typeof value === 'string') {
+    const re = reISO.exec(value);
+    if (re) {
+      return new Date(value);
+    }
+  }
+
+  return value;
 }

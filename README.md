@@ -23,7 +23,9 @@ The configuration values are exposed via environment variables. There are three 
 
 - `SECRET_KEY`: The secret key that you will use when connecting the adapter in the Wix Editor. Each request to your adapter will contain this value as `secretKey` in the _requestContext_ key inside the payload.
 - `ALLOWED_OPERATIONS`: The list of all the operations that this adapter will be allowed to perform. For example, if you want to create an adapter that allows read-only access, you can limit these operations to `["get", "find", "count"]`.
-- `SQL_CONFIG`: The configuration that will be used to connect to your SQL instance. This is JSON string that will be passed the mysql.createConnection() function. All available configuration options are documented in the [mysqljs/mysql](https://github.com/mysqljs/mysql#connection-options) driver repository.
+- `SQL_CONFIG`: The configuration that will be used to connect to your SQL instance. This is JSON string that will be passed the mysql.createConnection() function. All available configuration options are documented in the [mysqljs/mysql](https://github.com/mysqljs/mysql#connection-options) driver repository. SQL_CONFIG variable must be in form of 
+``` {"socketPath":"/cloudsql/[YOUR_SQL_INSTANCE]", "user": "[YOUR_USER]", "password":"[YOUR_PASSWORD]", "database":"DATABASE_YOU_CREATED"} ```
+Cloud SQL instance can be obtained as described [here](https://cloud.google.com/sql/docs/mysql/connect-run#nodejs).
 
 
 ## Deploying to Cloud Run using Cloud Console
