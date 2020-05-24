@@ -21,14 +21,19 @@ exports.find = async payload => {
   if (!limit) throw new BadRequestError('Missing limit in request body')
 
   const parsedFilter = parseFilter(filter)
-  const items = (await select(
-    collectionName,
-    parsedFilter,
-    parseSort(sort),
-    skip,
-    limit
-  )).map(wrapDates)
-  const totalCount = await count(collectionName, parsedFilter)
+
+  const [itemsRaw, totalCount] = await Promise.all([
+    select(
+      collectionName,
+      parsedFilter,
+      parseSort(sort),
+      skip,
+      limit
+    ),
+    count(collectionName, parsedFilter)
+  ]);
+
+  const items = itemsRaw.map(wrapDates)
 
   return { items, totalCount }
 }
