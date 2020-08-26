@@ -1,6 +1,8 @@
 const mysql = require('mysql')
 
-const sqlConfig = JSON.parse(process.env.SQL_CONFIG);
+const envConfig = process.env.SQL_CONFIG;
+
+const sqlConfig = JSON.parse(envConfig || '{"host":"localhost", "database":"corvid", "user":"", "password":""}');
 
 //console.log('Working with sql config: ' + JSON.stringify(sqlConfig))
 const connection = mysql.createConnection(sqlConfig);
