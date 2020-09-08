@@ -14,7 +14,15 @@ See our [SPI documentation](https://www.wix.com/corvid/reference/spis/getting-st
 
 This project assumes you have a Google Cloud Project with billing enabled. If you don't have one, follow this [free trial guide](https://cloud.google.com/free/).
 
-## Create a Cloud SQL instance and database
+Follow this three steps to connect MySQL DB with Wix External Database
+  1. Create a Cloud SQL instance and database
+  2. Deploy adapter
+      1. Deploying to Cloud Run using Cloud Console
+      2. Deploying to Google Cloud Run using the gcloud CLI
+      3. Deploying to Google App Engine using gcloud CLI
+  3. Connecting MySQL to your Corvid enabled Wix site
+
+## 1. Create a Cloud SQL instance and database
 Go to https://cloud.google.com/sql/docs/mysql/quickstart and create a database and tables with your required schema.
 
 ### Configuration
@@ -28,7 +36,7 @@ The configuration values are exposed via environment variables. There are three 
 Cloud SQL instance can be obtained as described [here](https://cloud.google.com/sql/docs/mysql/connect-run#nodejs).
 
 
-## Deploying to Cloud Run using Cloud Console
+## 2.i Deploying to Cloud Run using Cloud Console
 
 Follow the instructions in the Google Cloud Run [Quickstart Guide](https://cloud.google.com/run/docs/quickstarts/prebuilt-deploy).
 
@@ -47,7 +55,7 @@ In the browser you should see the following, which indicates that the connector 
 
 Copy the service URL. You will need it to [connect MySQL to your Corvid enabled Wix site](#connecting-mysql-to-your-corvid-enabled-wix-site).
 
-## Deploying to Google Cloud Run using the gcloud CLI
+## 2.ii Deploying to Google Cloud Run using the gcloud CLI
 
 1. Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/quickstarts) for your operating system.
 2. [Acquire new user credentials to use for Application Default Credentials](https://cloud.google.com/sdk/gcloud/reference/auth/application-default/login):
@@ -76,7 +84,7 @@ Copy the service URL. You will need it to [connect MySQL to your Corvid enabled 
 
 Copy the service URL. You will need it to [connect MySQL to your Corvid enabled Wix site](#connecting-mysql-to-your-corvid-enabled-wix-site).
 
-## Deploying to Google App Engine using gcloud CLI
+## 2.iii Deploying to Google App Engine using gcloud CLI
 
 1. Check out the source code:
 
@@ -97,7 +105,7 @@ Copy the service URL. You will need it to [connect MySQL to your Corvid enabled 
 
 The default [AppEngine instance class](https://cloud.google.com/appengine/docs/standard/#instance_classes) is F1. It works well for small tables of several gigabytes. If your application requires a larger capacity and executing complex and large queries, you can adjust the [instance size](https://cloud.google.com/appengine/docs/standard/#instance_classes) in the app.yaml file located at the root of the project. Please follow the instructions [here](https://cloud.google.com/appengine/docs/standard/nodejs/config/appref). Also, check the pricing in the [Google AppEngine Pricing](https://cloud.google.com/appengine/pricing) page.
 
-## Connecting MySQL to your Corvid enabled Wix site
+## 3. Connecting MySQL to your Corvid enabled Wix site
 
 Follow the [instructions here](https://support.wix.com/en/article/corvid-adding-and-deleting-an-external-database-collection).
 
