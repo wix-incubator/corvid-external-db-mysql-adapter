@@ -8,7 +8,7 @@ You can use this project as a basis for deploying your own adapter to the Google
 
 Learn more about working with external database collections in Corvid [here](https://support.wix.com/en/corvid-by-wix/external-database-collections-1023416).
 
-See our [SPI documentation](https://www.wix.com/corvid/reference/external-database-collections.html).
+See our [SPI documentation](https://www.wix.com/corvid/reference/spis/getting-started/overview).
 
 # Getting started
 
