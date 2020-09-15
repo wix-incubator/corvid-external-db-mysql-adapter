@@ -5,11 +5,13 @@ const schemas = require('./controller/schemas')
 const provision = require('./controller/provision')
 const { wrapError, errorMiddleware } = require('./utils/error-middleware')
 const authMiddleware = require('./utils/auth-middleware')
+const logMiddleware = require('./utils/log-middleware')
 
 const app = express()
 const port = process.env.PORT || 8080
 
 app.use(bodyParser.json())
+app.use(logMiddleware);
 app.use(authMiddleware)
 
 app.post('/schemas/find', wrapError(schemas.findSchemas))
